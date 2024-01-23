@@ -103,6 +103,7 @@
     }
 
     function convertWithCSS(){
+      document.getElementById("image").src = document.getElementById("imageHidden").src;
       document.getElementById("image").style.filter = "grayscale(1)";
     }
 
