@@ -27,6 +27,14 @@
     <h2>Convert an Image to Grayscale</h2>
     <button id="loadFileButton">Load a File</button>
     <input style="display:none;" type="file" id="file" onchange="loadImageFromFile();" accept=".jpg,.jpeg,.png,.bmp" />
+    <label>
+      Method:
+      <select id="methodSelect">
+        <option>CSS</option>
+        <option>Canvas</option>
+        <option>Dynamic Web TWAIN</option>
+      </select>
+    </label>
     <button id="convertButton">Convert</button>
     <div class="imageContainer">
       <img id="image"/>
@@ -46,7 +54,18 @@
     })
 
     document.getElementById("convertButton").addEventListener("click",function(){
+      if (document.getElementById("methodSelect").selectedIndex === 0){
+        convertWithCSS();
+      }else if (document.getElementById("methodSelect").selectedIndex === 1){
+
+      }else{
+
+      }
     })
+
+    function convertWithCSS(){
+      document.getElementById("image").style.filter = "grayscale(1)";
+    }
 
     function loadImageFromFile(){
       let fileInput = document.getElementById("file");
@@ -54,6 +73,7 @@
       if (files.length == 0) {
         return;
       }
+      document.getElementById("image").style.filter = "";
       let file = files[0];
       fileReader = new FileReader();
       fileReader.onload = function(e){
