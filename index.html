@@ -57,16 +57,13 @@
       if (document.getElementById("methodSelect").selectedIndex === 0){
         convertWithCSS();
       }else if (document.getElementById("methodSelect").selectedIndex === 1){
-
+        convertWithCanvas();
       }else{
-
+        convertWithDWT();
       }
     })
 
-    function convertWithCSS(){
-      document.getElementById("image").style.filter = "grayscale(1)";
-    }
-
+    
     function loadImageFromFile(){
       let fileInput = document.getElementById("file");
       let files = fileInput.files;
@@ -78,11 +75,42 @@
       fileReader = new FileReader();
       fileReader.onload = function(e){
         document.getElementById("image").src = e.target.result;
+        document.getElementById("imageHidden").src = e.target.result;
       };
       fileReader.onerror = function () {
         console.warn('oops, something went wrong.');
       };
       fileReader.readAsDataURL(file);
+    }
+
+    function convertWithCSS(){
+      document.getElementById("image").style.filter = "grayscale(1)";
+    }
+
+    function convertWithCanvas(){
+      document.getElementById("image").style.filter = "grayscale(1)";
+    }
+
+    async function convertWithDWT(){
+      if (!DWObject) {
+        await initDWT();
+      }
+      DWObject.RemoveAllImages();
+      let response = await fetch(document.getElementById("imageHidden").src);
+      let buffer = await response.arrayBuffer();
+      DWObject.LoadImageFromBinary(buffer,
+      function(){
+        DWObject.ConvertToGrayScale(0,
+        function(){
+          document.getElementById("image").src = DWObject.GetImageURL(0);
+        },
+        function(errorCode, errorString){
+          console.log(errorString);
+        });
+      },
+      function(errorCode, errorString){
+        console.log(errorString);
+      })
     }
 
     function initDWT(){
