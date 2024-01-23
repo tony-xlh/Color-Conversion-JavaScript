@@ -57,8 +57,10 @@
       if (document.getElementById("methodSelect").selectedIndex === 0){
         convertWithCSS();
       }else if (document.getElementById("methodSelect").selectedIndex === 1){
+        document.getElementById("image").style.filter = "";
         convertWithCanvas();
       }else{
+        document.getElementById("image").style.filter = "";
         convertWithDWT();
       }
     })
