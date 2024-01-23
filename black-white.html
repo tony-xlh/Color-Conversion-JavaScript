@@ -34,6 +34,10 @@
         <option>Dynamic Web TWAIN</option>
       </select>
     </label>
+    <label>
+      Threshold:
+      <input id="threshold" type="number" min="0" max="255" value="127">
+    </label>
     <button id="convertButton">Convert</button>
     <button id="downloadButton">Download</button>
     <div class="imageContainer">
@@ -135,7 +139,8 @@
 
     //return true if the value should be black. return false if the value should be white
     function threshold(grayscale){
-      if (grayscale > 127) {
+      const thresholdValue = parseInt(document.getElementById("threshold").value);
+      if (grayscale > thresholdValue) {
         return true;
       }else{
         return false;
