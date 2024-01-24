@@ -1,3 +1,5 @@
+//https://github.com/cawfree/otsu/
+
 const histo = (data, bins) =>
   data.reduce((arr, e) => {
     arr[bins.indexOf(e)] += 1;
