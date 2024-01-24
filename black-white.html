@@ -38,6 +38,7 @@
       <label>
         Threshold:
         <input id="threshold" type="number" min="0" max="255" value="127">
+        <button id="otsuButton">OTSU</button>
       </label>
     </div>
     
@@ -50,6 +51,7 @@
     <canvas id="canvasHidden"></canvas>
   </div>
   <script src="https://unpkg.com/dwt@18.4.2/dist/dynamsoft.webtwain.min.js"></script>
+  <script src="./otsu.js"></script>
   <script>
     let DWObject;
     Dynamsoft.DWT.AutoLoad = false;
@@ -74,6 +76,10 @@
       }else{
         convertWithDWT();
       }
+    })
+    
+    document.getElementById("otsuButton").addEventListener("click",function(){
+      calculateThresholdWithOTSU();
     })
 
     document.getElementById("downloadButton").addEventListener("click",async function(){
@@ -112,6 +118,27 @@
       fileReader.readAsDataURL(file);
     }
 
+    function calculateThresholdWithOTSU(){
+      const image = document.getElementById("imageHidden");
+      const canvas = document.getElementById("canvasHidden");
+      const width = image.naturalWidth;
+      const height = image.naturalHeight;
+      const context = canvas.getContext('2d');
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(image, 0, 0);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const pixels = imageData.data; //[r,g,b,a,...]
+      const grayscaleValues = [];
+      for (var i = 0; i < pixels.length; i += 4) {
+        const red = pixels[i];
+        const green = pixels[i + 1];
+        const blue = pixels[i + 2];
+        const grayscale = RGBToGrayScale(red, green, blue)
+        grayscaleValues.push(grayscale);
+      }
+      document.getElementById("threshold").value = otsu(grayscaleValues);
+    }
 
     function convertWithCanvas(){
       const image = document.getElementById("imageHidden");
