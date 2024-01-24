@@ -62,14 +62,6 @@
       document.getElementById("file").click();
     })
 
-    document.getElementById("methodSelect").addEventListener("change",function(){
-      if (document.getElementById("methodSelect").selectedIndex === 0){
-        document.getElementsByClassName("thresholdControls")[0].style.display = "inline";
-      }else{
-        document.getElementsByClassName("thresholdControls")[0].style.display = "none";
-      }
-    })
-
     document.getElementById("convertButton").addEventListener("click",function(){
       if (document.getElementById("methodSelect").selectedIndex === 0){
         convertWithCanvas();
@@ -77,7 +69,7 @@
         convertWithDWT();
       }
     })
-    
+
     document.getElementById("otsuButton").addEventListener("click",function(){
       calculateThresholdWithOTSU();
     })
@@ -195,18 +187,32 @@
       let buffer = await response.arrayBuffer();
       DWObject.LoadImageFromBinary(buffer,
       function(){
-        DWObject.ConvertToBW(0,
-        function(){
-          document.getElementById("image").src = DWObject.GetImageURL(0);
-        },
-        function(errorCode, errorString){
-          console.log(errorString);
-        });
+        const convert = async () => {
+          if (isWindows()) {
+            const thresholdValue = parseInt(document.getElementById("threshold").value);
+            console.log("thresholdValue");
+            await DWObject.RunCommandAsync({command:"convertToBW",parameter:{index:0,threshold:thresholdValue}});
+            document.getElementById("image").src = DWObject.GetImageURL(0);
+          }else{
+            DWObject.ConvertToBW(0,
+            function(){
+              document.getElementById("image").src = DWObject.GetImageURL(0);
+            },
+            function(errorCode, errorString){
+              console.log(errorString);
+            });
+          }
+        }
+        convert();
       },
       function(errorCode, errorString){
         console.log(errorString);
       })
     }
+
+    function isWindows() { 
+      return /windows|win32/i.test(navigator.userAgent);
+    }; 
 
     function initDWT(){
       return new Promise((resolve, reject) => {
