@@ -10,6 +10,7 @@ It can use three ways to convert the color of an image:
 
 Online demos:
 
-[Convert to Grayscale](https://tony-xlh.github.io/Color-Conversion-JavaScript/grayscale.html)
+* [Convert to Grayscale](https://tony-xlh.github.io/Color-Conversion-JavaScript/grayscale.html)
+* [Convert to Black and White](https://tony-xlh.github.io/Color-Conversion-JavaScript/black-white.html)
 
 
