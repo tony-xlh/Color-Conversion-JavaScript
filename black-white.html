@@ -190,7 +190,6 @@
         const convert = async () => {
           if (isWindows()) {
             const thresholdValue = parseInt(document.getElementById("threshold").value);
-            console.log("thresholdValue");
             await DWObject.RunCommandAsync({command:"convertToBW",parameter:{index:0,threshold:thresholdValue}});
             document.getElementById("image").src = DWObject.GetImageURL(0);
           }else{
