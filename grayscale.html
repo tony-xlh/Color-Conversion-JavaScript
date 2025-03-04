@@ -46,9 +46,14 @@
   <script src="https://unpkg.com/dwt@18.4.2/dist/dynamsoft.webtwain.min.js"></script>
   <script>
     let DWObject;
-    Dynamsoft.DWT.AutoLoad = false;
-    Dynamsoft.DWT.ProductKey = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ=="; //one-day trial
-    Dynamsoft.DWT.ResourcesPath = "https://unpkg.com/dwt@18.4.2/dist";
+    try {
+      Dynamsoft.DWT.AutoLoad = false;
+      Dynamsoft.DWT.ProductKey = "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ=="; //one-day trial
+      Dynamsoft.DWT.ResourcesPath = "https://unpkg.com/dwt@18.4.2/dist";
+    }catch(e) {
+      console.log(e);
+    }
+
    
     document.getElementById("loadFileButton").addEventListener("click",function(){
       document.getElementById("file").click();
